@@ -40,7 +40,7 @@ system.time({
 #    user  system elapsed
 #    0.143   0.025   0.169
 
-# XVA scenario
+# Mini XVA scenario
 step_size <- 1 / 4 # quarterly
 n_steps <- 30 * 4  # thirty years
 n_paths <- 10000   # vs 5000?
@@ -62,7 +62,24 @@ system.time({
 #   Size: 155MB
 
 
+# Bigger XVA scenario
 
+scenarios <- list(
+  mu = seq(-0.05, 0.05, length.out = 20),
+  sigma = seq(0.1, 1.0, length.out = 20)
+) %>%
+  purrr::cross_df()
+
+# Dimensionality: 400 x 10000 x (30 x 4)  = 480,000,000
+
+system.time({
+  res_very_large <- scenarios %>%
+    purrr::pmap(gbm, x = 1, step_size, n_steps, n_paths)
+})
+
+#    user  system elapsed
+#   65.013   6.827  76.475
+#   Size: 3.8Gb
 
 
 
