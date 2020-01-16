@@ -4,10 +4,10 @@ library(tidyverse)
 gbm <- function(x0, mu, sigma, step_size, n_steps, n_paths) {
 
   rn_paths <- n_paths %>%
-    rerun(
+    purrr::rerun(
       rnorm(n_steps)
     ) %>%
-    map(
+    purrr::map(
       ~ x0 * exp(n_steps * step_size * mu + sqrt(step_size) * sigma * cumsum(.))
     )
 }
@@ -30,8 +30,8 @@ system.time({
     mu = seq(-0.05, 0.05, length.out = 10),
     sigma = seq(0.1, 1.0, length.out = 10)
   ) %>%
-    cross_df() %>%
-    pmap(gbm, x = 1, step_size, n_steps, n_paths)
+    purrr::cross_df() %>%
+    purrr::pmap(gbm, x = 1, step_size, n_steps, n_paths)
 })
 
 
