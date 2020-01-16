@@ -77,12 +77,7 @@ system.time({
     purrr::pmap(gbm, x = 1, step_size, n_steps, n_paths)
 })
 
-#    user  system elapsed
+#     user  system elapsed
 #   65.013   6.827  76.475
 #   Size: 3.8Gb
-
-
-
-
-
 
